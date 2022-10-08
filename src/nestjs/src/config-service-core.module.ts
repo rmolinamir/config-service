@@ -4,11 +4,9 @@ import {
   FactoryProvider,
   Global,
   Module,
-  OnModuleInit,
   Provider,
   Type
 } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
 import { defer, lastValueFrom } from 'rxjs';
 import { CONFIG_SERVICE_MODULE_OPTIONS } from './config-service.constants';
 import {
@@ -21,9 +19,7 @@ import { retry } from './helpers/retry';
 
 @Global()
 @Module({})
-export class ConfigServicCoreModule implements OnModuleInit {
-  constructor(private readonly moduleRef: ModuleRef) {}
-
+export class ConfigServicCoreModule {
   public static forRoot(
     configModules: ConfigModule[],
     options: ConfigServiceModuleOptions = {}
@@ -79,12 +75,6 @@ export class ConfigServicCoreModule implements OnModuleInit {
       providers: [...asyncProviders, configServiceProvider],
       exports: [configServiceProvider]
     };
-  }
-
-  public async onModuleInit() {
-    const configService =
-      this.moduleRef.get<ConfigService<ConfigModule[]>>(ConfigService);
-    configService && (await configService.load());
   }
 
   private static createAsyncProviders(
