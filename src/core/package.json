@@ -15,6 +15,7 @@
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "dev": "pnpm watch",
+    "lint": "pnpm eslint src/**",
     "prebuild": "rm -rf tsconfig.build.tsbuildinfo ./dist",
     "prepublish": "pnpm build",
     "prerelease": "npm run build",
