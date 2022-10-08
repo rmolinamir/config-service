@@ -7,10 +7,15 @@ module.exports = {
   // globalTeardown: `${__dirname}/tests/globalTeardown.ts`,
   // Only run TypeScript tests.
   testMatch: ['<rootDir>/tests/**/*.test.ts'],
-  globals: {
-    'ts-jest': {
-      diagnostics: false // Disabling diagnostics
-      // pathRegex: /\.(spec|test)\.ts$/, // Disabling by pathRegex
-    }
+  transform: {
+    // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
+    // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: '<rootDir>/tsconfig.json',
+        diagnostics: false // Disabling diagnostics
+      }
+    ]
   }
 };

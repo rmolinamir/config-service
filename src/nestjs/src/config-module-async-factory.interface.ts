@@ -7,7 +7,7 @@ import {
 
 export interface ConfigModuleAsyncFactory
   extends Pick<ModuleMetadata, 'imports'> {
-  provide: ConfigModule['key'];
+  provide: InjectionToken;
   useFactory: (...args: unknown[]) => Promise<ConfigModule> | ConfigModule;
   inject?: (InjectionToken | OptionalFactoryDependency)[];
 }
