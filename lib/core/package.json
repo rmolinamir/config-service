@@ -7,6 +7,12 @@
     "registry": "https://registry.npmjs.org/"
   },
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./*": "./dist/*.js"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
