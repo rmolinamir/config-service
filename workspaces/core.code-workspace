@@ -1,10 +1,15 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"path": "..",
+			"name": "root"
 		},
 		{
-			"path": "../src/core"
+			"path": ".",
+			"name": "workspaces"
+		},
+		{
+			"path": "../lib/core"
 		}
 	]
 }

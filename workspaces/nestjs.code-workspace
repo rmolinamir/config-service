@@ -1,10 +1,15 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"path": "..",
+			"name": "root"
 		},
 		{
-			"path": "../src/nestjs"
+			"path": ".",
+			"name": "workspaces"
+		},
+		{
+			"path": "../lib/nestjs"
 		}
 	]
 }
