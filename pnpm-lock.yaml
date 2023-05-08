@@ -79,7 +79,7 @@ importers:
 
   lib/nestjs:
     specifiers:
-      '@config-service/core': ^0.0.0
+      '@config-service/core': ^0.1.0
       '@config/eslint': workspace:*
       '@config/tsconfig': workspace:*
       '@faker-js/faker': 7.6.0
