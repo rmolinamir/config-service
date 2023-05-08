@@ -35,7 +35,7 @@
   "devDependencies": {
     "@config/eslint": "workspace:*",
     "@config/tsconfig": "workspace:*",
-    "@config-service/core": "^0.1.1",
+    "@config-service/core": "workspace:*",
     "@faker-js/faker": "7.6.0",
     "@nestjs/common": "~9.4.0",
     "@nestjs/testing": "~9.4.0",

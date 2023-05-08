@@ -1,4 +1,4 @@
-import { ConfigService } from '@config-service/core/dist/config-service';
+import { ConfigService } from '@config-service/core';
 
 describe('ConfigService', () => {
   describe('fixtures', () => {

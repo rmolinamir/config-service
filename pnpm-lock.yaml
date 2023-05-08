@@ -74,12 +74,12 @@ importers:
       jest: 29.5.0_@types+node@20.1.0
       reflect-metadata: 0.1.13
       release-it: 15.10.3_typescript@5.0.4
-      ts-jest: 29.1.0_dywjbwoysgpe5pkqw6owlxitka
+      ts-jest: 29.1.0_tobmchb5uviuq5lwsinkw5fvje
       typescript: 5.0.4
 
   lib/nestjs:
     specifiers:
-      '@config-service/core': ^0.1.1
+      '@config-service/core': workspace:*
       '@config/eslint': workspace:*
       '@config/tsconfig': workspace:*
       '@faker-js/faker': 7.6.0
@@ -111,7 +111,7 @@ importers:
       jest: 29.5.0_@types+node@20.1.0
       reflect-metadata: 0.1.13
       release-it: 15.10.3_typescript@5.0.4
-      ts-jest: 29.1.0_tobmchb5uviuq5lwsinkw5fvje
+      ts-jest: 29.1.0_dywjbwoysgpe5pkqw6owlxitka
       typescript: 5.0.4
 
 packages:
