@@ -7,13 +7,10 @@
     "registry": "https://registry.npmjs.org/"
   },
   "license": "MIT",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "exports": {
-    "./*": "./dist/*"
+    "./*": "./*"
   },
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
