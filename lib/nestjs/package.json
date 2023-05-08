@@ -27,7 +27,7 @@
     "watch": "tsc --project tsconfig.build.json --watch"
   },
   "peerDependencies": {
-    "@config-service/core": "^0.1.0",
+    "@config-service/core": "^0.1.1",
     "@nestjs/common": "^8.0.0 || ^9.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0"
@@ -35,7 +35,7 @@
   "devDependencies": {
     "@config/eslint": "workspace:*",
     "@config/tsconfig": "workspace:*",
-    "@config-service/core": "^0.1.0",
+    "@config-service/core": "^0.1.1",
     "@faker-js/faker": "7.6.0",
     "@nestjs/common": "~9.4.0",
     "@nestjs/testing": "~9.4.0",
