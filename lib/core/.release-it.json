@@ -19,6 +19,6 @@
     "releaseName": "Release ${npm.name} v${version}"
   },
   "npm": {
-    "publishPath": "dist"
+    "publishPath": "./dist/"
   }
 }
