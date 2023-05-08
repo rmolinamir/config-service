@@ -23,6 +23,7 @@
     "lint": "tsc --noEmit && eslint",
     "prebuild": "rm -rf tsconfig.build.tsbuildinfo ./dist",
     "prepublish": "pnpm build",
+    "prerelease": "cp package.json dist/package.json",
     "release:dry": "pnpm release-it --dry-run",
     "release": "pnpm release-it",
     "test:watch": "pnpm jest --watch",
