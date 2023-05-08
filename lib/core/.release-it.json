@@ -7,6 +7,7 @@
   "hooks": {
     "before:init": ["pnpm lint:prepublish", "pnpm test"],
     "after:bump": "pnpm build",
+    "before:release": ["cp package.json dist/package.json"],
     "after:release": "echo Successfully released ${npm.name} v${version} to ${repo.repository}."
   },
   "git": {
