@@ -8,7 +8,10 @@ export class ConfigRegistry {
   private readonly filenames = new Map<Config, string>();
 
   constructor(private readonly options: { location: string }) {
-    assert(existsSync(options.location), 'Location does not exist.');
+    assert(
+      existsSync(this.options.location),
+      `Location {${this.options.location}} does not exist.`
+    );
   }
 
   /**
@@ -28,7 +31,10 @@ export class ConfigRegistry {
 
     const location = resolve(this.options.location, filename);
 
-    assert(existsSync(location), 'Location does not exist.');
+    assert(
+      existsSync(location),
+      `Config location {${location}} does not exist.`
+    );
 
     return new Uri(`file://${location}`).toString();
   }
