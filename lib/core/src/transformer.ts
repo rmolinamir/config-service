@@ -6,5 +6,7 @@ import { Maybe } from './types/maybe';
  * Asynchronously transforms the data into a config object.
  */
 export interface Transformer<C extends Config> {
-  (data: ExcludeFunctionsOf<Maybe<InstanceType<C>>>): Promise<InstanceType<C>>;
+  (ConfigClass: C, data: ExcludeFunctionsOf<Maybe<InstanceType<C>>>): Promise<
+    InstanceType<C>
+  >;
 }

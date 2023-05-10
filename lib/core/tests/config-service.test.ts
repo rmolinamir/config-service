@@ -2,14 +2,14 @@ import { faker } from '@faker-js/faker';
 
 import { ConfigService } from '../src/config-service';
 import { ExcludeFunctionsOf } from '../src/types/exclude-functions-of';
-import { ConfigFiles } from './helpers/config-file-mocker';
+import { ConfigFilesFactory } from './config-file-factory';
 
 describe('ConfigService', () => {
   const service = new ConfigService();
-  const store = new ConfigFiles();
+  const factory = new ConfigFilesFactory();
 
   afterAll(() => {
-    store.cleanup();
+    factory.cleanup();
   });
 
   describe('API', () => {
@@ -30,7 +30,7 @@ describe('ConfigService', () => {
     let jwtConfigPath: string;
 
     beforeAll(() => {
-      jwtConfigPath = store.add(JwtConfig, jwt);
+      jwtConfigPath = factory.add(JwtConfig, jwt);
     });
 
     test('loads a config file', async () => {
@@ -70,9 +70,13 @@ describe('ConfigService', () => {
           facebook: faker.random.alphaNumeric(32)
         })
       );
+
       const transformer = jest
         .fn()
-        .mockImplementation((data) => JSON.parse(data));
+        .mockImplementation((ConfigClass, data) =>
+          Object.assign(new ConfigClass(), JSON.parse(data))
+        );
+
       const validator = jest.fn().mockImplementation((config) => {
         if (!config.google || !config.facebook)
           throw new Error('Config is invalid.');

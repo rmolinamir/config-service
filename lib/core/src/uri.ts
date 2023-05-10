@@ -1,6 +1,5 @@
 /**
  * Based on [URI Regular Expression](https://github.com/jhermsmeier/uri.regex).
- * By [Jonas Hermsmeier](https://github.com/jhermsmeier).
  */
 export class Uri {
   constructor(uri: string) {
@@ -24,7 +23,7 @@ export class Uri {
     this.validate();
   }
 
-  public match: string;
+  private match: string;
 
   public protocol: string;
 
@@ -42,17 +41,16 @@ export class Uri {
 
   public hash?: string;
 
+  public toString(): string {
+    return this.match;
+  }
+
   private validate(): void {
     const errors: string[] = [];
 
     if (!this.protocol)
       errors.push(
         `URI protocol {${this.protocol}} is invalid. Check that the URI has a valid RFC3986 format.`
-      );
-
-    if (!this.path)
-      errors.push(
-        `URI path {${this.path}} is invalid. Check that the URI has a valid RFC3986 format.`
       );
 
     if (errors.length > 0) throw new Error(errors.join('\n'));

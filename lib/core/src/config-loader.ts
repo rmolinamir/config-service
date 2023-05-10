@@ -4,15 +4,9 @@ import path from 'path';
 
 import { Config } from './config';
 import { ConfigModule } from './config-module';
+import { FileExtension } from './file-extension';
+import { FileProtocol } from './file-protocol';
 import { Uri } from './uri';
-
-enum FileProtocol {
-  FILE = 'file'
-}
-
-enum FileExtension {
-  JSON = 'json'
-}
 
 export class ConfigLoader<C extends Config> {
   private readonly source: Uri;
@@ -23,7 +17,10 @@ export class ConfigLoader<C extends Config> {
     this.source = new Uri(source);
     this.module = module;
 
-    assert(this.source.path, `URI {${this.source.match}} is invalid.`);
+    assert(
+      this.source.path,
+      `URIs without paths are not supported, received {${this.source.toString()}}.`
+    );
   }
 
   /**
@@ -41,9 +38,13 @@ export class ConfigLoader<C extends Config> {
 
     let config: InstanceType<C>;
 
-    if (this.module.options.transformer)
-      config = await this.module.options.transformer(file);
-    else {
+    if (this.module.options.transformer) {
+      config = await this.module.options.transformer(this.module.Class, file);
+      assert(
+        Object.getPrototypeOf(config).constructor === this.module.Class,
+        'The transformer must return an instance of the config class.'
+      );
+    } else {
       config = new this.module.Class() as InstanceType<C>;
       Object.assign(config, file);
     }
@@ -70,14 +71,14 @@ export class ConfigLoader<C extends Config> {
       }
 
       default:
-        throw new Error(`URI protocol {${protocol}} is not supported.`);
+        throw new Error(`File protocol {${protocol}} is not supported.`);
     }
 
     return this.parseFile(file);
   }
 
   private parseFile(fileContents: string): object {
-    const ext = ConfigLoader.getPathExtension(this.source.path!);
+    const ext = ConfigLoader.getFileExtension(this.source.path!);
 
     switch (ext) {
       case FileExtension.JSON:
@@ -100,9 +101,9 @@ export class ConfigLoader<C extends Config> {
   }
 
   /**
-   * Returns the extention of the file path.
+   * Returns the extention of the file.
    */
-  private static getPathExtension(file: string): string {
+  private static getFileExtension(file: string): string {
     const ext = path.extname(file).substring(1);
     return ext;
   }
