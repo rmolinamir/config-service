@@ -35,7 +35,7 @@ export class ConfigService {
     }
   }
 
-  public module<C extends Config>(Config: C): ConfigModule<C> | undefined {
+  private module<C extends Config>(Config: C): ConfigModule<C> | undefined {
     return ConfigService.configModules.get(Config) as
       | ConfigModule<C>
       | undefined;

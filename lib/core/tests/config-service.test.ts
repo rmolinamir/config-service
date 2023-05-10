@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
 
-import { ConfigModuleState } from '../src/config-module-state';
 import { ConfigService } from '../src/config-service';
 import { ExcludeFunctionsOf } from '../src/types/exclude-functions-of';
 import { ConfigFiles } from './helpers/config-file-mocker';
@@ -28,13 +27,15 @@ describe('ConfigService', () => {
       expiresTimeSpan: '1h'
     };
 
+    let jwtConfigPath: string;
+
     beforeAll(() => {
-      store.add(JwtConfig, jwt);
+      jwtConfigPath = store.add(JwtConfig, jwt);
     });
 
     test('loads a config file', async () => {
       await expect(
-        service.load(JwtConfig, store.path(JwtConfig))
+        service.load(JwtConfig, jwtConfigPath)
       ).resolves.not.toThrow();
 
       expect(service.get(JwtConfig)).toBeTruthy();
@@ -42,17 +43,17 @@ describe('ConfigService', () => {
 
     test('loading a config file twice does not throw', async () => {
       await expect(
-        service.load(JwtConfig, store.path(JwtConfig))
+        service.load(JwtConfig, jwtConfigPath)
       ).resolves.not.toThrow();
       await expect(
-        service.load(JwtConfig, store.path(JwtConfig))
+        service.load(JwtConfig, jwtConfigPath)
       ).resolves.not.toThrow();
 
       expect(service.get(JwtConfig)).toBeTruthy();
     });
 
     test('get', async () => {
-      await service.load(JwtConfig, store.path(JwtConfig));
+      await service.load(JwtConfig, jwtConfigPath);
 
       const config = service.get(JwtConfig);
 
@@ -62,10 +63,20 @@ describe('ConfigService', () => {
   });
 
   describe('Register', () => {
-    test('decorator', () => {
-      const loader = jest.fn();
-      const transformer = jest.fn();
-      const validator = jest.fn();
+    test('decorator', async () => {
+      const loader = jest.fn().mockResolvedValue(
+        JSON.stringify({
+          google: faker.random.alphaNumeric(32),
+          facebook: faker.random.alphaNumeric(32)
+        })
+      );
+      const transformer = jest
+        .fn()
+        .mockImplementation((data) => JSON.parse(data));
+      const validator = jest.fn().mockImplementation((config) => {
+        if (!config.google || !config.facebook)
+          throw new Error('Config is invalid.');
+      });
 
       @ConfigService.Register({
         loader,
@@ -80,15 +91,16 @@ describe('ConfigService', () => {
         public uselessFunction(): void {}
       }
 
-      const module = service.module(ApiKeysConfig);
+      await service.load(ApiKeysConfig, 'file:///api-keys.json');
 
-      expect(module).toBeTruthy();
-      expect(module?.Class).toBe(ApiKeysConfig);
-      expect(module?.config).toBe(null);
-      expect(module?.options.loader).toBe(loader);
-      expect(module?.options.transformer).toBe(transformer);
-      expect(module?.options.validator).toBe(validator);
-      expect(module?.state).toBe(ConfigModuleState.UNLOADED);
+      expect(loader).toHaveBeenCalled();
+      expect(transformer).toHaveBeenCalled();
+      expect(validator).toHaveBeenCalled();
+
+      const config = service.get(ApiKeysConfig);
+
+      expect(config.google).toBeTruthy();
+      expect(config.facebook).toBeTruthy();
     });
 
     test('throws if config is already registered', () => {
@@ -104,44 +116,6 @@ describe('ConfigService', () => {
           public uselessFunction(): void {}
         }
       }).toThrow();
-    });
-
-    test('custom pipes', async () => {
-      @ConfigService.Register({
-        loader: jest.fn().mockResolvedValue(
-          JSON.stringify({
-            google: faker.random.alphaNumeric(32),
-            facebook: faker.random.alphaNumeric(32)
-          })
-        ),
-        transformer: jest.fn().mockImplementation((data) => JSON.parse(data)),
-        validator: jest.fn().mockImplementation((config) => {
-          if (!config.google || !config.facebook)
-            throw new Error('Config is invalid.');
-        })
-      })
-      class ApiKeysConfig {
-        public google!: string;
-
-        public facebook!: string;
-
-        public uselessFunction(): void {}
-      }
-
-      const module = service.module(ApiKeysConfig);
-
-      expect(module).toBeTruthy();
-
-      await service.load(ApiKeysConfig, 'file:///api-keys.json');
-
-      expect(module!.options.loader).toHaveBeenCalled();
-      expect(module!.options.transformer).toHaveBeenCalled();
-      expect(module!.options.validator).toHaveBeenCalled();
-
-      const config = service.get(ApiKeysConfig);
-
-      expect(config.google).toBeTruthy();
-      expect(config.facebook).toBeTruthy();
     });
   });
 });

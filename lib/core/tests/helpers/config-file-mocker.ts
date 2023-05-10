@@ -8,18 +8,10 @@ import { ExcludeFunctionsOf } from '../../src/types/exclude-functions-of';
 export class ConfigFiles {
   private testSuiteFiles = new Map<Config, string>();
 
-  public path<C extends Config>(Config: C): string {
-    const path = this.testSuiteFiles.get(Config);
-
-    if (!path) throw new Error(`Config {${Config.name}} path not found.`);
-
-    return `file://${path}`;
-  }
-
   public add<C extends Config>(
     Config: C,
     data: ExcludeFunctionsOf<InstanceType<C>>
-  ): void {
+  ): string {
     const filepath = path
       .resolve(os.tmpdir(), `${Config.name}.json`)
       .replace(/\\/g, '/');
@@ -27,6 +19,8 @@ export class ConfigFiles {
     fs.writeFileSync(filepath, JSON.stringify(data));
 
     this.testSuiteFiles.set(Config, filepath);
+
+    return `file://${filepath}`;
   }
 
   public cleanup(): void {
