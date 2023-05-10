@@ -1,3 +1,3 @@
-export * from './config-service-global.module';
-export * from './config-service.module';
-export * from './types';
+export * from './typestack';
+export * from './typestack-transformer';
+export * from './typestack-validator';
