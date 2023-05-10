@@ -1,4 +1,4 @@
-import { ConfigModule } from '@config-service/core';
+import { Config } from '@config-service/core/config';
 import {
   InjectionToken,
   ModuleMetadata,
@@ -11,14 +11,21 @@ export interface ConfigServiceModuleOptions {
   retryDelay?: number;
 }
 
-export interface ConfigServiceOptionsFactory {
-  createConfigServiceOptions():
-    | Promise<ConfigServiceModuleOptions>
-    | ConfigServiceModuleOptions;
+export interface ConfigOptions {
+  Config: Config;
+  source: string;
+  options?: ConfigServiceModuleOptions;
 }
 
-export type ConfigServiceModuleFactoryOptions = ConfigServiceModuleOptions & {
-  configModules: ConfigModule[];
+export interface ConfigServiceOptionsFactory {
+  createConfigServiceOptions():
+    | Promise<ConfigServiceModuleFactoryOptions>
+    | ConfigServiceModuleFactoryOptions;
+}
+
+export type ConfigServiceModuleFactoryOptions = {
+  configs: ConfigOptions[];
+  options?: ConfigServiceModuleOptions;
 };
 
 export interface ConfigServiceModuleAsyncOptions
@@ -30,5 +37,12 @@ export interface ConfigServiceModuleAsyncOptions
   ) =>
     | Promise<ConfigServiceModuleFactoryOptions>
     | ConfigServiceModuleFactoryOptions;
+  inject?: (InjectionToken | OptionalFactoryDependency)[];
+}
+
+export interface ConfigModuleAsyncFactory
+  extends Pick<ModuleMetadata, 'imports'> {
+  provide: InjectionToken;
+  useFactory: (...args: unknown[]) => Promise<Config> | Config;
   inject?: (InjectionToken | OptionalFactoryDependency)[];
 }

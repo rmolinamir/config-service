@@ -1,39 +1,58 @@
-import { ConfigModule } from '@config-service/core';
-import { DynamicModule, flatten, Module } from '@nestjs/common';
-import { ConfigModuleAsyncFactory } from './config-module-async-factory.interface';
-import { ConfigServicCoreModule } from './config-service-core.module';
+import { ConfigService } from '@config-service/core';
+import { Config } from '@config-service/core/config';
+import { DynamicModule, flatten, Module, Provider } from '@nestjs/common';
+
+import { ConfigServicGlobalModule } from './config-service-global.module';
 import {
+  ConfigModuleAsyncFactory,
+  ConfigOptions,
   ConfigServiceModuleAsyncOptions,
   ConfigServiceModuleOptions
-} from './config-service-options.interfaces';
-import {
-  createConfigServiceAsyncProviders,
-  createConfigServiceProviders
-} from './config-service.providers';
+} from './types';
 
 @Module({})
 export class ConfigServiceModule {
+  /**
+   * Configures the ConfigService NestJS module.
+   * Configurations are only loaded once because the internal module is global.
+   */
   public static forRoot(
-    configModules: ConfigModule[],
-    options: ConfigServiceModuleOptions = {}
+    configs: ConfigOptions[],
+    options: ConfigServiceModuleOptions
   ): DynamicModule {
     return {
       module: ConfigServiceModule,
-      imports: [ConfigServicCoreModule.forRoot(configModules, options)]
+      imports: [ConfigServicGlobalModule.forRoot(configs, options)]
     };
   }
 
+  /**
+   * Configures the ConfigService NestJS module.
+   * Configurations are only loaded once because the internal module is global.
+   */
   public static forRootAsync(
     options: ConfigServiceModuleAsyncOptions
   ): DynamicModule {
     return {
       module: ConfigServiceModule,
-      imports: [ConfigServicCoreModule.forRootAsync(options)]
+      imports: [ConfigServicGlobalModule.forRootAsync(options)]
     };
   }
 
-  public static forFeature(configModules: ConfigModule[]): DynamicModule {
-    const providers = createConfigServiceProviders(configModules);
+  /**
+   * Makes use of the configuration from `forRoot` or `forRootAsync` to return Config providers.
+   */
+  public static forFeature(configs: Config[]): DynamicModule {
+    const providers = configs.reduce<Provider[]>((providers, Config) => {
+      providers.push({
+        provide: Config,
+        useFactory: async (service: ConfigService) => {
+          return service.get(Config);
+        },
+        inject: [ConfigService]
+      });
+      return providers;
+    }, []);
 
     return {
       module: ConfigServiceModule,
@@ -42,16 +61,31 @@ export class ConfigServiceModule {
     };
   }
 
+  /**
+   * Makes use of the configuration from `forRoot` or `forRootAsync` to return Config providers.
+   */
   public static forFeatureAsync(
     factories: ConfigModuleAsyncFactory[] = []
   ): DynamicModule {
-    const providers = createConfigServiceAsyncProviders(factories);
-    const imports = factories.map((factory) => factory.imports || []);
-    const uniqImports = new Set(flatten(imports));
+    const factoryImports = factories.map((factory) => factory.imports || []);
+    const imports = Array.from(new Set(flatten(factoryImports)));
+
+    const providers = factories.reduce<Provider[]>((providers, factory) => {
+      providers.push({
+        provide: factory.provide,
+        useFactory: async (service: ConfigService, ...args: unknown[]) => {
+          const Config = await factory.useFactory(...args);
+          return service.get(Config);
+        },
+        inject: [ConfigService, ...(factory.inject || [])]
+      });
+
+      return providers;
+    }, []);
 
     return {
       module: ConfigServiceModule,
-      imports: Array.from(uniqImports),
+      imports,
       providers,
       exports: providers
     };

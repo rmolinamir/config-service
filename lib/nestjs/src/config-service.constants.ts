@@ -1,1 +1,1 @@
-export const CONFIG_SERVICE_MODULE_OPTIONS = 'ConfigServiceModuleOptions';
+export const OPTIONS_PROVIDER_TOKEN = Symbol('OPTIONS_PROVIDER_TOKEN');
