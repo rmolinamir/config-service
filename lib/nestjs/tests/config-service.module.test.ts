@@ -10,22 +10,20 @@ import { JwtConfig } from './configs/jwt-config';
 import { MongoDbConfig } from './configs/mongodb-config';
 import { RedisConfig } from './configs/redis-config';
 import { ServerConfig } from './configs/server-config';
-import { ConfigFiles } from './helpers/config-file-mocker';
+import { ConfigFilesFactory } from './helpers/config-file-factory';
 
 describe('ConfigServiceModule', () => {
-  const store = new ConfigFiles();
+  const factory = new ConfigFilesFactory();
 
   const jwtData: JwtConfig = {
     secret: faker.random.alphaNumeric(32),
     expiresIn: '1h'
   };
-  const jwtConfigPath = store.add(JwtConfig, jwtData);
 
   const mongoDbData: MongoDbConfig = {
     uri: faker.internet.url(),
     dbName: faker.random.alphaNumeric(10)
   };
-  const mongoDbConfigPath = store.add(MongoDbConfig, mongoDbData);
 
   const redisData: RedisConfig = {
     host: faker.internet.ip(),
@@ -33,13 +31,16 @@ describe('ConfigServiceModule', () => {
     password: faker.random.alphaNumeric(32),
     db: faker.datatype.number()
   };
-  const redisConfigPath = store.add(RedisConfig, redisData);
 
   const serverConfigData: ServerConfig = {
     host: faker.internet.ip(),
     port: faker.datatype.number()
   };
-  const serverConfigPath = store.add(ServerConfig, serverConfigData);
+
+  const jwtConfigPath = factory.add(JwtConfig, jwtData);
+  const mongoDbConfigPath = factory.add(MongoDbConfig, mongoDbData);
+  const redisConfigPath = factory.add(RedisConfig, redisData);
+  const serverConfigPath = factory.add(ServerConfig, serverConfigData);
 
   test('forRoot', async () => {
     const module: TestingModule = await Test.createTestingModule({

@@ -4,8 +4,8 @@ import fs from 'fs';
 import os from 'os';
 import path from 'path';
 
-export class ConfigFiles {
-  private testSuiteFiles = new Map<Config, string>();
+export class ConfigFilesFactory {
+  private files = new Map<Config, string>();
 
   public add<C extends Config>(
     Config: C,
@@ -17,13 +17,13 @@ export class ConfigFiles {
 
     fs.writeFileSync(filepath, JSON.stringify(data));
 
-    this.testSuiteFiles.set(Config, filepath);
+    this.files.set(Config, filepath);
 
     return `file://${filepath}`;
   }
 
   public cleanup(): void {
-    for (const file of this.testSuiteFiles.values()) {
+    for (const file of this.files.values()) {
       try {
         fs.unlinkSync(file);
       } catch (err) {
@@ -31,6 +31,6 @@ export class ConfigFiles {
       }
     }
 
-    this.testSuiteFiles.clear();
+    this.files.clear();
   }
 }

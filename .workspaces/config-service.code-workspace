@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "..",
+			"name": "root"
+		},
+		{
+			"path": "../lib/core"
+		},
+		{
+			"path": "../lib/nestjs"
+		},
+		{
+			"path": "../lib/typestack"
+		},
+		{
+			"path": "../lib/registry"
+		},
+		{
+			"path": "../lib/testing"
+		}
+	]
+}
