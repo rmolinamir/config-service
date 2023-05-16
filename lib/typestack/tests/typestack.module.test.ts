@@ -1,6 +1,5 @@
 import { ConfigService } from '@config-service/core';
-import { ConfigFilesFactory } from '@config-service/testing';
-import { faker } from '@faker-js/faker';
+import { ConfigFilesFactory, faker } from '@config-service/testing';
 import { IsNumber, IsString } from 'class-validator';
 
 import { TypeStack } from '../src/typestack';
@@ -33,9 +32,9 @@ describe('TypeStack', () => {
     await service.load(
       ApiKeysConfig,
       factory.add(ApiKeysConfig, {
-        google: faker.random.alphaNumeric(32),
-        facebook: faker.random.alphaNumeric(32)
-      })
+        google: faker.string.alphanumeric(32),
+        facebook: faker.string.alphanumeric(32)
+      }).value
     );
 
     expect(transformerSpy).toHaveBeenCalled();
@@ -60,9 +59,9 @@ describe('TypeStack', () => {
     await service.load(
       ApiKeysConfig,
       factory.add(ApiKeysConfig, {
-        google: faker.random.alphaNumeric(32),
-        facebook: faker.random.alphaNumeric(32)
-      })
+        google: faker.string.alphanumeric(32),
+        facebook: faker.string.alphanumeric(32)
+      }).value
     );
 
     const config = service.get(ApiKeysConfig);
@@ -82,13 +81,14 @@ describe('TypeStack', () => {
       public facebook!: string;
     }
 
-    const apiKeysPath = factory.add(ApiKeysConfig, {
-      google: faker.random.alphaNumeric(32),
-      facebook: faker.random.alphaNumeric(32)
-    });
-
     await expect(
-      service.load(ApiKeysConfig, apiKeysPath)
+      service.load(
+        ApiKeysConfig,
+        factory.add(ApiKeysConfig, {
+          google: faker.string.alphanumeric(32),
+          facebook: faker.string.alphanumeric(32)
+        }).value
+      )
     ).rejects.toThrowError();
   });
 });
