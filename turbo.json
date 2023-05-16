@@ -10,7 +10,7 @@
       "outputs": [],
       "inputs": ["src/**/*.tsx", "src/**/*.ts", "tests/**/*.ts", "tests/**/*.tsx"]
     },  
-    "dev": {
+    "watch": {
       "cache": false
     },
     "lint": {

@@ -1,32 +1,29 @@
-import { Uri } from '@config-service/core/uri';
-import { faker } from '@faker-js/faker';
+import { faker } from '@config-service/testing';
 import { existsSync } from 'fs';
 
-import {
-  ConfigFilesFactory,
-  JwtConfig,
-  MongoDbConfig,
-  RedisConfig,
-  ServerConfig
-} from '../src';
+import { ConfigFilesFactory } from '../src';
+import { JwtConfig } from './configs/jwt-config';
+import { MongoDbConfig } from './configs/mongodb-config';
+import { RedisConfig } from './configs/redis-config';
+import { ServerConfig } from './configs/server-config';
 
 describe('ConfigFilesFactory', () => {
   const factory = new ConfigFilesFactory();
 
   const jwtData: JwtConfig = {
-    secret: faker.random.alphaNumeric(32),
+    secret: faker.string.alphanumeric(32),
     expiresIn: '1h'
   };
 
   const mongoDbData: MongoDbConfig = {
     uri: faker.internet.url(),
-    dbName: faker.random.alphaNumeric(10)
+    dbName: faker.string.alphanumeric(10)
   };
 
   const redisData: RedisConfig = {
     host: faker.internet.ip(),
     port: faker.datatype.number(),
-    password: faker.random.alphaNumeric(32),
+    password: faker.string.alphanumeric(32),
     db: faker.datatype.number()
   };
 
@@ -43,8 +40,7 @@ describe('ConfigFilesFactory', () => {
   });
 
   test('cleanup', async () => {
-    const location = factory.add(JwtConfig, jwtData);
-    const uri = new Uri(location);
+    const uri = factory.add(JwtConfig, jwtData);
 
     expect(existsSync(uri.path!)).toBe(true);
 
