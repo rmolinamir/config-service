@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+import { faker } from '@config-service/testing';
 
 import { ConfigService } from '../src/config-service';
 import { ExcludeFunctionsOf } from '../src/types/exclude-functions-of';
@@ -23,7 +23,7 @@ describe('ConfigService', () => {
     }
 
     const jwt: ExcludeFunctionsOf<JwtConfig> = {
-      accessTokenSecret: faker.random.alphaNumeric(32),
+      accessTokenSecret: faker.string.alphanumeric(32),
       expiresTimeSpan: '1h'
     };
 
@@ -66,8 +66,8 @@ describe('ConfigService', () => {
     test('decorator', async () => {
       const loader = jest.fn().mockResolvedValue(
         JSON.stringify({
-          google: faker.random.alphaNumeric(32),
-          facebook: faker.random.alphaNumeric(32)
+          google: faker.string.alphanumeric(32),
+          facebook: faker.string.alphanumeric(32)
         })
       );
 

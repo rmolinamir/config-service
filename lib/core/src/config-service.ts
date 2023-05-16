@@ -7,10 +7,16 @@ import { ClassDecorator as NewClassDecorator } from './types/class-decorator';
 import { ClassConstructor } from './types/class-type';
 
 export class ConfigService {
+  /**
+   * Get the config instance for the given Config class.
+   */
   public get<C extends Config>(Config: C): InstanceType<C> {
     const module = this.module(Config);
 
-    if (!module) throw new Error(`Config {${Config.name}} not found.`);
+    if (!module)
+      throw new Error(
+        `Config {${Config.name}} not found. Make sure to register the Config class with the Register decorator.`
+      );
     else if (module.state !== ConfigModuleState.LOADED)
       throw new Error(`Config {${Config.name}} is not loaded.`);
     else if (!module.config)
@@ -19,13 +25,19 @@ export class ConfigService {
     return module.config;
   }
 
+  /**
+   * Load the config data for the given Config class.
+   */
   public async load<C extends Config>(
     Config: C,
     source: string
   ): Promise<void> {
     const module = this.module(Config);
 
-    if (!module) throw new Error(`Config {${Config.name}} not found.`);
+    if (!module)
+      throw new Error(
+        `Config {${Config.name}} not found. Make sure to register the Config class with the Register decorator.`
+      );
     else if (module.state === ConfigModuleState.UNLOADED) {
       const loader = new ConfigLoader(source, module);
 
@@ -41,6 +53,10 @@ export class ConfigService {
       | undefined;
   }
 
+  /**
+   * This decorator is used to register a Config class with the ConfigService.
+   * The ConfigService will use this class to load the config data.
+   */
   public static Register<ConfigType extends InstanceType<Config>>(
     options: RegisterOptions<ClassConstructor<ConfigType>> = {}
   ) {
