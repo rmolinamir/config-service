@@ -2,7 +2,7 @@ import { ConfigService } from '@config-service/core';
 import { Config } from '@config-service/core/config';
 import { DynamicModule, flatten, Module, Provider } from '@nestjs/common';
 
-import { ConfigServicGlobalModule } from './config-service-global.module';
+import { ConfigServiceGlobalModule } from './config-service-global.module';
 import {
   ConfigModuleAsyncFactory,
   ConfigOptions,
@@ -18,11 +18,11 @@ export class ConfigServiceModule {
    */
   public static forRoot(
     configs: ConfigOptions[],
-    options: ConfigServiceModuleOptions
+    options: ConfigServiceModuleOptions = {}
   ): DynamicModule {
     return {
       module: ConfigServiceModule,
-      imports: [ConfigServicGlobalModule.forRoot(configs, options)]
+      imports: [ConfigServiceGlobalModule.forRoot(configs, options)]
     };
   }
 
@@ -35,7 +35,7 @@ export class ConfigServiceModule {
   ): DynamicModule {
     return {
       module: ConfigServiceModule,
-      imports: [ConfigServicGlobalModule.forRootAsync(options)]
+      imports: [ConfigServiceGlobalModule.forRootAsync(options)]
     };
   }
 
@@ -65,7 +65,7 @@ export class ConfigServiceModule {
    * Makes use of the configuration from `forRoot` or `forRootAsync` to return Config providers.
    */
   public static forFeatureAsync(
-    factories: ConfigModuleAsyncFactory[] = []
+    factories: ConfigModuleAsyncFactory[]
   ): DynamicModule {
     const factoryImports = factories.map((factory) => factory.imports || []);
     const imports = Array.from(new Set(flatten(factoryImports)));

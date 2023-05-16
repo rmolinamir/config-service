@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Config } from '@config-service/core/config';
 import {
   InjectionToken,
@@ -17,23 +19,23 @@ export interface ConfigOptions {
   options?: ConfigServiceModuleOptions;
 }
 
+export type ConfigServiceModuleFactoryOptions = {
+  configs: ConfigOptions[];
+  options?: ConfigServiceModuleOptions;
+};
+
 export interface ConfigServiceOptionsFactory {
   createConfigServiceOptions():
     | Promise<ConfigServiceModuleFactoryOptions>
     | ConfigServiceModuleFactoryOptions;
 }
 
-export type ConfigServiceModuleFactoryOptions = {
-  configs: ConfigOptions[];
-  options?: ConfigServiceModuleOptions;
-};
-
 export interface ConfigServiceModuleAsyncOptions
   extends Pick<ModuleMetadata, 'imports'> {
   useExisting?: Type<ConfigServiceOptionsFactory>;
   useClass?: Type<ConfigServiceOptionsFactory>;
   useFactory?: (
-    ...args: unknown[]
+    ...args: any[]
   ) =>
     | Promise<ConfigServiceModuleFactoryOptions>
     | ConfigServiceModuleFactoryOptions;
@@ -43,6 +45,6 @@ export interface ConfigServiceModuleAsyncOptions
 export interface ConfigModuleAsyncFactory
   extends Pick<ModuleMetadata, 'imports'> {
   provide: InjectionToken;
-  useFactory: (...args: unknown[]) => Promise<Config> | Config;
+  useFactory: (...args: any[]) => Promise<Config> | Config;
   inject?: (InjectionToken | OptionalFactoryDependency)[];
 }

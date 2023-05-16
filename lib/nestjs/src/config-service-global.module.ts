@@ -21,10 +21,10 @@ import {
 
 @Global()
 @Module({})
-export class ConfigServicGlobalModule {
+export class ConfigServiceGlobalModule {
   public static forRoot(
     configs: ConfigOptions[],
-    options: ConfigServiceModuleOptions = {}
+    options: ConfigServiceModuleOptions
   ): DynamicModule {
     const configServiceProvider: FactoryProvider = {
       provide: ConfigService,
@@ -51,7 +51,7 @@ export class ConfigServicGlobalModule {
     };
 
     return {
-      module: ConfigServicGlobalModule,
+      module: ConfigServiceGlobalModule,
       providers: [configServiceProvider],
       exports: [ConfigService]
     };
@@ -89,7 +89,7 @@ export class ConfigServicGlobalModule {
     };
 
     return {
-      module: ConfigServicGlobalModule,
+      module: ConfigServiceGlobalModule,
       imports: asyncOptions.imports,
       providers: [
         configServiceProvider,

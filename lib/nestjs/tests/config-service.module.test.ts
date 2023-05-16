@@ -1,5 +1,5 @@
 import { ConfigService } from '@config-service/core';
-import { faker } from '@faker-js/faker';
+import { faker } from '@config-service/testing';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import {
@@ -16,19 +16,19 @@ describe('ConfigServiceModule', () => {
   const factory = new ConfigFilesFactory();
 
   const jwtData: JwtConfig = {
-    secret: faker.random.alphaNumeric(32),
+    secret: faker.string.alphanumeric(32),
     expiresIn: '1h'
   };
 
   const mongoDbData: MongoDbConfig = {
     uri: faker.internet.url(),
-    dbName: faker.random.alphaNumeric(10)
+    dbName: faker.string.alphanumeric(10)
   };
 
   const redisData: RedisConfig = {
     host: faker.internet.ip(),
     port: faker.datatype.number(),
-    password: faker.random.alphaNumeric(32),
+    password: faker.string.alphanumeric(32),
     db: faker.datatype.number()
   };
 
@@ -45,18 +45,12 @@ describe('ConfigServiceModule', () => {
   test('forRoot', async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigServiceModule.forRoot(
-          [
-            { Config: JwtConfig, source: jwtConfigPath },
-            { Config: MongoDbConfig, source: mongoDbConfigPath },
-            { Config: RedisConfig, source: redisConfigPath },
-            { Config: ServerConfig, source: serverConfigPath }
-          ],
-          {
-            retryAttempts: 5,
-            retryDelay: 1000
-          }
-        )
+        ConfigServiceModule.forRoot([
+          { Config: JwtConfig, source: jwtConfigPath },
+          { Config: MongoDbConfig, source: mongoDbConfigPath },
+          { Config: RedisConfig, source: redisConfigPath },
+          { Config: ServerConfig, source: serverConfigPath }
+        ])
       ]
     }).compile();
 
