@@ -47,6 +47,7 @@
     "@config-service/testing": "workspace:*",
     "@config/eslint": "workspace:*",
     "@config/jest": "workspace:*",
+    "@config/release-it": "workspace:*",
     "@config/tsconfig": "workspace:*",
     "@nestjs/common": "~9.4.1",
     "@nestjs/testing": "~9.4.1",
