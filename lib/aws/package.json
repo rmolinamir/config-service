@@ -1,0 +1,60 @@
+{
+  "name": "@config-service/aws",
+  "version": "0.0.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "lint:fix": "tsc --noEmit && eslint --fix",
+    "lint:prepublish": "tsc --project tsconfig.build.json --noEmit && eslint",
+    "lint": "tsc --noEmit && eslint",
+    "prebuild": "rm -rf tsconfig.build.tsbuildinfo ./dist",
+    "prepublish": "pnpm build",
+    "release:dry": "pnpm release-it --dry-run",
+    "release": "pnpm release-it",
+    "test:watch": "pnpm jest --watch",
+    "test": "pnpm jest",
+    "watch": "tsc --project tsconfig.build.json --watch"
+  },
+  "peerDependencies": {
+    "@aws-sdk/client-s3": "^3.359.0",
+    "@config-service/core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-s3": "~3.359.0",
+    "@aws-sdk/util-stream-node": "^3.357.0",
+    "@config-service/core": "workspace:*",
+    "@config-service/testing": "workspace:*",
+    "@config/eslint": "workspace:*",
+    "@config/jest": "workspace:*",
+    "@config/release-it": "workspace:*",
+    "@config/tsconfig": "workspace:*",
+    "@types/jest": "29.5.1",
+    "@types/node": "~20.1.5",
+    "aws-sdk-client-mock": "^2.1.1",
+    "jest": "~29.5.0",
+    "release-it": "~15.10.3",
+    "ts-jest": "~29.1.0",
+    "typescript": "~5.0.4"
+  }
+}
