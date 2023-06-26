@@ -1,5 +1,4 @@
 import { Config } from './config';
-import { Loader } from './loader';
 import { Transformer } from './transformer';
 import { Validator } from './validator';
 
@@ -9,17 +8,6 @@ export type RegisterOptions<C extends Config> = {
    * @default false
    */
   override?: boolean;
-
-  /**
-   * Transforms the loaded data into an object that matches the config type excluding functions.
-   * @default undefined
-   * @example
-   * loader: (module) => {
-   *    const data = fs.readFileSync('config.json', 'utf-8');
-   *    return JSON.parse(data);
-   * }
-   */
-  loader?: Loader<C>;
 
   /**
    * Transforms the loaded data into an object that matches the config type excluding functions.

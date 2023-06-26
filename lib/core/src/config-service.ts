@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { Config } from './config';
 import { ConfigLoader } from './config-loader';
 import { ConfigModule } from './config-module';
@@ -7,6 +9,8 @@ import { ClassDecorator as NewClassDecorator } from './types/class-decorator';
 import { ClassConstructor } from './types/class-type';
 
 export class ConfigService {
+  constructor(public readonly loader: ConfigLoader) {}
+
   /**
    * Get the config instance for the given Config class.
    */
@@ -39,9 +43,21 @@ export class ConfigService {
         `Config {${Config.name}} not found. Make sure to register the Config class with the Register decorator.`
       );
     else if (module.state === ConfigModuleState.UNLOADED) {
-      const loader = new ConfigLoader(source, module);
+      const file = await this.loader.load(source);
 
-      module.config = await loader.load();
+      if (module.options.transformer) {
+        module.config = await module.options.transformer(module.Class, file);
+        assert(
+          Object.getPrototypeOf(module.config).constructor === module.Class,
+          'The transformer must return an instance of the config class.'
+        );
+      } else {
+        module.config = new module.Class() as InstanceType<C>;
+        Object.assign(module.config, file);
+      }
+
+      if (module.options.validator)
+        await module.options.validator(module.config);
 
       module.state = ConfigModuleState.LOADED;
     }

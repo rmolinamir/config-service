@@ -1,11 +1,12 @@
 import { faker } from '@config-service/testing';
 
+import { FileLoader } from '../src';
 import { ConfigService } from '../src/config-service';
 import { ExcludeFunctionsOf } from '../src/types/exclude-functions-of';
 import { ConfigFilesFactory } from './config-file-factory';
 
 describe('ConfigService', () => {
-  const service = new ConfigService();
+  const service = new ConfigService(new FileLoader());
   const factory = new ConfigFilesFactory();
 
   afterAll(() => {
@@ -63,41 +64,43 @@ describe('ConfigService', () => {
   });
 
   describe('Register', () => {
-    test('decorator', async () => {
-      const loader = jest.fn().mockResolvedValue(
-        JSON.stringify({
-          google: faker.string.alphanumeric(32),
-          facebook: faker.string.alphanumeric(32)
-        })
+    const transformer = jest
+      .fn()
+      .mockImplementation((ConfigClass, data) =>
+        Object.assign(new ConfigClass(), data)
       );
 
-      const transformer = jest
-        .fn()
-        .mockImplementation((ConfigClass, data) =>
-          Object.assign(new ConfigClass(), JSON.parse(data))
-        );
+    const validator = jest.fn().mockImplementation((config) => {
+      if (!config.google || !config.facebook)
+        throw new Error('Config is invalid.');
+    });
 
-      const validator = jest.fn().mockImplementation((config) => {
-        if (!config.google || !config.facebook)
-          throw new Error('Config is invalid.');
-      });
+    @ConfigService.Register({
+      transformer,
+      validator
+    })
+    class ApiKeysConfig {
+      public google!: string;
 
-      @ConfigService.Register({
-        loader,
-        transformer,
-        validator
-      })
-      class ApiKeysConfig {
-        public google!: string;
+      public facebook!: string;
 
-        public facebook!: string;
+      public uselessFunction(): void {}
+    }
 
-        public uselessFunction(): void {}
-      }
+    const apiKeys: ExcludeFunctionsOf<ApiKeysConfig> = {
+      google: faker.string.alphanumeric(32),
+      facebook: faker.string.alphanumeric(32)
+    };
 
-      await service.load(ApiKeysConfig, 'file:///api-keys.json');
+    let apiKeysPath: string;
 
-      expect(loader).toHaveBeenCalled();
+    beforeAll(() => {
+      apiKeysPath = factory.add(ApiKeysConfig, apiKeys);
+    });
+
+    test('decorator', async () => {
+      await service.load(ApiKeysConfig, apiKeysPath);
+
       expect(transformer).toHaveBeenCalled();
       expect(validator).toHaveBeenCalled();
 
