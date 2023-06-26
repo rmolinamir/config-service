@@ -8,6 +8,9 @@
 			"path": "../lib/core"
 		},
 		{
+			"path": "../lib/aws"
+		},
+		{
 			"path": "../lib/nestjs"
 		},
 		{
