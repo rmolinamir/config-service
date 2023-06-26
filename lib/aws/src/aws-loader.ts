@@ -34,10 +34,13 @@ export class AwsLoader implements ConfigLoader {
   }
 
   private async loadFile(uri: Uri): Promise<object> {
+    const bucket = uri.host!;
+    const key = uri.path!.startsWith('/') ? uri.path!.substring(1) : uri.path;
+
     const res = await this.s3Client.send(
       new GetObjectCommand({
-        Bucket: uri.host!,
-        Key: uri.path!
+        Bucket: bucket,
+        Key: key
       })
     );
 
