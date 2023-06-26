@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.0.1](https://github.com/rmolinamir/config-service/compare/@config-service/aws-v1.0.0...${npm.name}-v1.0.1) (2023-06-26)
+
+
+### Bug Fixes
+
+* **peerdependencies:** fixed core package peer dependency of the aws and nestjs packages ([2395603](https://github.com/rmolinamir/config-service/commit/239560349d98b3769484b8eba8206e908454f2fa))
+
 ## 1.0.0 (2023-06-26)
 
 
