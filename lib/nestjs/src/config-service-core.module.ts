@@ -1,4 +1,4 @@
-import { ConfigService } from '@config-service/core';
+import { ConfigLoader, ConfigService } from '@config-service/core';
 import {
   DynamicModule,
   FactoryProvider,
@@ -21,15 +21,16 @@ import {
 
 @Global()
 @Module({})
-export class ConfigServiceGlobalModule {
+export class ConfigServiceCoreModule {
   public static forRoot(
+    loader: ConfigLoader,
     configs: ConfigOptions[],
     options: ConfigServiceModuleOptions
   ): DynamicModule {
     const configServiceProvider: FactoryProvider = {
       provide: ConfigService,
       useFactory: async (): Promise<unknown> => {
-        const service = new ConfigService();
+        const service = new ConfigService(loader);
 
         for (const config of configs) {
           const { Config, source } = config;
@@ -51,7 +52,7 @@ export class ConfigServiceGlobalModule {
     };
 
     return {
-      module: ConfigServiceGlobalModule,
+      module: ConfigServiceCoreModule,
       providers: [configServiceProvider],
       exports: [ConfigService]
     };
@@ -63,10 +64,11 @@ export class ConfigServiceGlobalModule {
     const configServiceProvider = {
       provide: ConfigService,
       useFactory: async ({
+        loader,
         configs,
         options = {}
       }: ConfigServiceModuleFactoryOptions): Promise<unknown> => {
-        const service = new ConfigService();
+        const service = new ConfigService(loader);
 
         for (const config of configs) {
           const { Config, source } = config;
@@ -89,7 +91,7 @@ export class ConfigServiceGlobalModule {
     };
 
     return {
-      module: ConfigServiceGlobalModule,
+      module: ConfigServiceCoreModule,
       imports: asyncOptions.imports,
       providers: [
         configServiceProvider,

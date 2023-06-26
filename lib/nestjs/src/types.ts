@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { ConfigLoader } from '@config-service/core';
 import { Config } from '@config-service/core/config';
 import {
   InjectionToken,
@@ -20,6 +21,7 @@ export interface ConfigOptions {
 }
 
 export type ConfigServiceModuleFactoryOptions = {
+  loader: ConfigLoader;
   configs: ConfigOptions[];
   options?: ConfigServiceModuleOptions;
 };

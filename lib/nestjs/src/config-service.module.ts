@@ -1,8 +1,8 @@
-import { ConfigService } from '@config-service/core';
+import { ConfigLoader, ConfigService } from '@config-service/core';
 import { Config } from '@config-service/core/config';
 import { DynamicModule, flatten, Module, Provider } from '@nestjs/common';
 
-import { ConfigServiceGlobalModule } from './config-service-global.module';
+import { ConfigServiceCoreModule } from './config-service-core.module';
 import {
   ConfigModuleAsyncFactory,
   ConfigOptions,
@@ -17,12 +17,13 @@ export class ConfigServiceModule {
    * Configurations are only loaded once because the internal module is global.
    */
   public static forRoot(
+    loader: ConfigLoader,
     configs: ConfigOptions[],
     options: ConfigServiceModuleOptions = {}
   ): DynamicModule {
     return {
       module: ConfigServiceModule,
-      imports: [ConfigServiceGlobalModule.forRoot(configs, options)]
+      imports: [ConfigServiceCoreModule.forRoot(loader, configs, options)]
     };
   }
 
@@ -35,7 +36,7 @@ export class ConfigServiceModule {
   ): DynamicModule {
     return {
       module: ConfigServiceModule,
-      imports: [ConfigServiceGlobalModule.forRootAsync(options)]
+      imports: [ConfigServiceCoreModule.forRootAsync(options)]
     };
   }
 

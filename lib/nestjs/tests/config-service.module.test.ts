@@ -1,4 +1,4 @@
-import { ConfigService } from '@config-service/core';
+import { ConfigLoader, ConfigService, FileLoader } from '@config-service/core';
 import { faker } from '@config-service/testing';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -45,7 +45,7 @@ describe('ConfigServiceModule', () => {
   test('forRoot', async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigServiceModule.forRoot([
+        ConfigServiceModule.forRoot(new FileLoader(), [
           { Config: JwtConfig, source: jwtConfigPath },
           { Config: MongoDbConfig, source: mongoDbConfigPath },
           { Config: RedisConfig, source: redisConfigPath },
@@ -63,29 +63,32 @@ describe('ConfigServiceModule', () => {
   });
 
   test('forRootAsync', async () => {
-    const options = new Promise<ConfigServiceModuleFactoryOptions>((resolve) =>
-      resolve({
-        configs: [
-          { Config: JwtConfig, source: jwtConfigPath },
-          { Config: MongoDbConfig, source: mongoDbConfigPath },
-          { Config: RedisConfig, source: redisConfigPath },
-          { Config: ServerConfig, source: serverConfigPath }
-        ],
-        options: {
-          retryAttempts: 5,
-          retryDelay: 1000
-        }
-      })
-    );
-
     const moduleRef: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigServiceModule.forRootAsync({
           useFactory: async () => {
+            const options = new Promise<ConfigServiceModuleFactoryOptions>(
+              (resolve) =>
+                resolve({
+                  loader: new FileLoader(),
+                  configs: [
+                    { Config: JwtConfig, source: jwtConfigPath },
+                    { Config: MongoDbConfig, source: mongoDbConfigPath },
+                    { Config: RedisConfig, source: redisConfigPath },
+                    { Config: ServerConfig, source: serverConfigPath }
+                  ],
+                  options: {
+                    retryAttempts: 5,
+                    retryDelay: 1000
+                  }
+                })
+            );
+
             return await options;
           }
         })
-      ]
+      ],
+      providers: [{ provide: ConfigLoader, useClass: FileLoader }]
     }).compile();
 
     const service = moduleRef.get(ConfigService);
@@ -97,6 +100,7 @@ describe('ConfigServiceModule', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigServiceModule.forRoot(
+          new FileLoader(),
           [{ Config: JwtConfig, source: jwtConfigPath }],
           {
             retryAttempts: 5,
@@ -104,29 +108,32 @@ describe('ConfigServiceModule', () => {
           }
         ),
         ConfigServiceModule.forFeature([JwtConfig])
-      ]
+      ],
+      providers: [{ provide: ConfigLoader, useClass: FileLoader }]
     }).compile();
 
     expect(module.get(JwtConfig)).toMatchObject(jwtData);
   });
 
   test('forFeatureAsync', async () => {
-    const options = new Promise<ConfigServiceModuleFactoryOptions>((resolve) =>
-      resolve({
-        configs: [{ Config: JwtConfig, source: jwtConfigPath }],
-        options: {
-          retryAttempts: 5,
-          retryDelay: 1000
-        }
-      })
-    );
-
     const JWT_PROVIDER_TOKEN = Symbol('JWT_PROVIDER_TOKEN');
 
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigServiceModule.forRootAsync({
           useFactory: async () => {
+            const options = new Promise<ConfigServiceModuleFactoryOptions>(
+              (resolve) =>
+                resolve({
+                  loader: new FileLoader(),
+                  configs: [{ Config: JwtConfig, source: jwtConfigPath }],
+                  options: {
+                    retryAttempts: 5,
+                    retryDelay: 1000
+                  }
+                })
+            );
+
             return await options;
           }
         }),
@@ -138,7 +145,8 @@ describe('ConfigServiceModule', () => {
             }
           }
         ])
-      ]
+      ],
+      providers: [{ provide: ConfigLoader, useClass: FileLoader }]
     }).compile();
 
     expect(module.get(JWT_PROVIDER_TOKEN)).toMatchObject(jwtData);
