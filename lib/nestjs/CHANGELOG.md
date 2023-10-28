@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.1.2](https://github.com/rmolinamir/config-service/compare/@config-service/nestjs-v1.1.0...${npm.name}-v1.1.2) (2023-10-28)
+
+
+### Bug Fixes
+
+* **aws:** removing leading forward slash from s3 key, if any ([ab1bbcd](https://github.com/rmolinamir/config-service/commit/ab1bbcd141c442d4393e66d4a43ef4f9ce5d1f53))
+* **peerdependencies:** fixed core package peer dependency of the aws and nestjs packages ([2395603](https://github.com/rmolinamir/config-service/commit/239560349d98b3769484b8eba8206e908454f2fa))
+
 ### [1.1.1](https://github.com/rmolinamir/config-service/compare/@config-service/nestjs-v1.1.0...${npm.name}-v1.1.1) (2023-06-26)
 
 
