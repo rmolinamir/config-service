@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.1.4](https://github.com/rmolinamir/config-service/compare/@config-service/nestjs-v1.1.3...${npm.name}-v1.1.4) (2024-07-10)
+
 ## [1.1.3](https://github.com/rmolinamir/config-service/compare/@config-service/nestjs-v1.1.2...${npm.name}-v1.1.3) (2024-07-10)
 
 ### [1.1.2](https://github.com/rmolinamir/config-service/compare/@config-service/nestjs-v1.1.0...${npm.name}-v1.1.2) (2023-10-28)
