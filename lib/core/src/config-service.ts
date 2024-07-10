@@ -1,5 +1,4 @@
 import assert from 'assert';
-
 import { Config } from './config';
 import { ConfigLoader } from './config-loader';
 import { ConfigModule } from './config-module';

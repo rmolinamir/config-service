@@ -1,5 +1,5 @@
+import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { faker } from '@config-service/testing';
-
 import { FileLoader } from '../src';
 import { ConfigService } from '../src/config-service';
 import { ExcludeFunctionsOf } from '../src/types/exclude-functions-of';
@@ -64,13 +64,13 @@ describe('ConfigService', () => {
   });
 
   describe('Register', () => {
-    const transformer = jest
+    const transformer = vi
       .fn()
       .mockImplementation((ConfigClass, data) =>
         Object.assign(new ConfigClass(), data)
       );
 
-    const validator = jest.fn().mockImplementation((config) => {
+    const validator = vi.fn().mockImplementation((config) => {
       if (!config.google || !config.facebook)
         throw new Error('Config is invalid.');
     });

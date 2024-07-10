@@ -1,7 +1,7 @@
+import { describe, expect, test } from 'vitest';
 import { ConfigLoader, ConfigService, FileLoader } from '@config-service/core';
 import { faker } from '@config-service/testing';
 import { Test, TestingModule } from '@nestjs/testing';
-
 import {
   ConfigServiceModule,
   ConfigServiceModuleFactoryOptions

@@ -1,10 +1,8 @@
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { ConfigLoader } from '@config-service/core';
 import assert from 'assert';
 import path from 'path';
-
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { ConfigLoader, Uri } from '@config-service/core';
 import { FileExtension } from './file-extension';
-import { Uri } from './uri';
 
 /**
  * TODOs:

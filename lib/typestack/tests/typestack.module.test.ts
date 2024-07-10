@@ -1,11 +1,11 @@
-import { ConfigService } from '@config-service/core';
-import { ConfigFilesFactory, faker } from '@config-service/testing';
 import { IsNumber, IsString } from 'class-validator';
-
+import { afterAll, describe, expect, test, vi } from 'vitest';
+import { ConfigService, FileLoader } from '@config-service/core';
+import { ConfigFilesFactory, faker } from '@config-service/testing';
 import { TypeStack } from '../src/typestack';
 
 describe('TypeStack', () => {
-  const service = new ConfigService();
+  const service = new ConfigService(new FileLoader());
   const factory = new ConfigFilesFactory();
 
   afterAll(() => {
@@ -15,8 +15,8 @@ describe('TypeStack', () => {
   test('integration', async () => {
     const typeStack = TypeStack();
 
-    const transformerSpy = jest.spyOn(typeStack, 'transformer');
-    const validatorSpy = jest.spyOn(typeStack, 'validator');
+    const transformerSpy = vi.spyOn(typeStack, 'transformer');
+    const validatorSpy = vi.spyOn(typeStack, 'validator');
 
     @ConfigService.Register(typeStack)
     class ApiKeysConfig {

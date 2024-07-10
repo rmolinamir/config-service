@@ -1,8 +1,8 @@
-import { ConfigService } from '@config-service/core';
-import { ConfigFilesFactory, faker } from '@config-service/testing';
 import os from 'os';
 import path from 'path';
-
+import { describe, expect, test } from 'vitest';
+import { ConfigService, FileLoader } from '@config-service/core';
+import { ConfigFilesFactory, faker } from '@config-service/testing';
 import { ConfigRegistry } from '../src';
 import { JwtConfig } from './jwt-config';
 
@@ -10,7 +10,7 @@ describe('ConfigRegistry', () => {
   const tmpDir = os.tmpdir();
 
   const factory = new ConfigFilesFactory(tmpDir);
-  const service = new ConfigService();
+  const service = new ConfigService(new FileLoader());
 
   const jwtData: JwtConfig = {
     secret: faker.string.alphanumeric(32),
