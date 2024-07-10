@@ -37,7 +37,7 @@
     "watch": "tsc --project tsconfig.build.json --watch"
   },
   "peerDependencies": {
-    "@aws-sdk/client-s3": "^3.359.0",
+    "@aws-sdk/client-s3": "^3.613.0",
     "@config-service/core": "^1.1.0"
   },
   "devDependencies": {
