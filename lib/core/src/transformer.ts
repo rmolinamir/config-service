@@ -1,6 +1,6 @@
-import { Config } from './config';
-import { ExcludeFunctionsOf } from './types/exclude-functions-of';
-import { Maybe } from './types/maybe';
+import type { Config } from './config.js';
+import type { ExcludeFunctionsOf } from './types/exclude-functions-of.js';
+import type { Maybe } from './types/maybe.js';
 
 /**
  * Asynchronously transforms the data into a config object.

@@ -1,10 +1,9 @@
+import { Uri } from '@config-service/core';
+import type { Config } from '@config-service/core/Config';
+import type { ExcludeFunctionsOf } from '@config-service/core/types/exclude-functions-of';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-
-import { Config } from '../src/config';
-import { ExcludeFunctionsOf } from '../src/types/exclude-functions-of';
-import { Uri } from '../src/uri';
 
 export class ConfigFilesFactory {
   private files = new Map<Config, Uri>();

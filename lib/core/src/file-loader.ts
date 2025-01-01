@@ -2,9 +2,9 @@ import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
 
-import { ConfigLoader } from './config-loader';
-import { FileExtension } from './file-extension';
-import { Uri } from './uri';
+import { ConfigLoader } from './config-loader.js';
+import { FileExtension } from './file-extension.js';
+import { Uri } from './uri.js';
 
 export class FileLoader implements ConfigLoader {
   /**

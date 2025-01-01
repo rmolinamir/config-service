@@ -9,6 +9,10 @@ export class Uri {
       throw new Error(
         `URI {${uri}} is invalid. Check that the URI has a valid RFC3986 format.`
       );
+    else if (!matches[1])
+      throw new Error(
+        `URI protocol {${matches[1]}} is invalid. Check that the URI has a valid RFC3986 format.`
+      );
 
     this.match = matches[0];
     this.protocol = matches[1];

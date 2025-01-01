@@ -1,9 +1,9 @@
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { faker } from '@config-service/testing';
-import { FileLoader } from '../src';
-import { ConfigService } from '../src/config-service';
-import { ExcludeFunctionsOf } from '../src/types/exclude-functions-of';
-import { ConfigFilesFactory } from './config-file-factory';
+import { FileLoader } from '../file-loader.js';
+import { ConfigService } from '../config-service.js';
+import type { ExcludeFunctionsOf } from '../types/exclude-functions-of.js';
+import { ConfigFilesFactory } from './config-file-factory.js';
 
 describe('ConfigService', () => {
   const service = new ConfigService(new FileLoader());

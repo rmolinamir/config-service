@@ -1,4 +1,4 @@
-import { ClassConstructor } from './class-type';
+import { ClassConstructor } from './class-type.js';
 
 export type ClassDecorator = (
   Class: ClassConstructor,

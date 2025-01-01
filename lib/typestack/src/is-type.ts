@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { plainToInstance } from 'class-transformer';
+import type {
+  ValidationOptions
+} from 'class-validator';
 import {
   registerDecorator,
   validateSync,
-  ValidationOptions
 } from 'class-validator';
 
 export function IsType(Class: new () => any, options: ValidationOptions = {}) {

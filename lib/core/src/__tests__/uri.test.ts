@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { Uri } from '../src/uri';
+import { Uri } from '../uri.js';
 
 describe('Uri', () => {
   test('protocol is parsed correctly', () => {

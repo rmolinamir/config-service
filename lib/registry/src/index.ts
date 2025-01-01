@@ -1,1 +1,1 @@
-export * from './config-registry';
+export * from './config-registry.js';

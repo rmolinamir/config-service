@@ -2,7 +2,7 @@ import { IsNumber, IsString } from 'class-validator';
 import { afterAll, describe, expect, test, vi } from 'vitest';
 import { ConfigService, FileLoader } from '@config-service/core';
 import { ConfigFilesFactory, faker } from '@config-service/testing';
-import { TypeStack } from '../src/typestack';
+import { TypeStack } from '../typestack.js';
 
 describe('TypeStack', () => {
   const service = new ConfigService(new FileLoader());

@@ -1,2 +1,2 @@
-export * from './config-service.module';
-export * from './types';
+export * from './config-service.module.js';
+export * from './types.js';

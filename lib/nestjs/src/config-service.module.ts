@@ -1,14 +1,15 @@
 import { ConfigLoader, ConfigService } from '@config-service/core';
 import { Config } from '@config-service/core/config';
-import { DynamicModule, flatten, Module, Provider } from '@nestjs/common';
+import { flatten, Module } from '@nestjs/common';
+import type { DynamicModule, Provider } from '@nestjs/common';
 
-import { ConfigServiceCoreModule } from './config-service-core.module';
-import {
+import { ConfigServiceCoreModule } from './config-service-core.module.js';
+import type {
   ConfigModuleAsyncFactory,
   ConfigOptions,
   ConfigServiceModuleAsyncOptions,
   ConfigServiceModuleOptions
-} from './types';
+} from './types.js';
 
 @Module({})
 export class ConfigServiceModule {

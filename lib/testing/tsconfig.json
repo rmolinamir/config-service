@@ -1,5 +1,5 @@
 {
-  "extends": "@config/tsconfig/backend.json",
+  "extends": "@config/tsconfig/cjs.json",
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
 }

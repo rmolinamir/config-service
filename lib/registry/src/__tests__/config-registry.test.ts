@@ -3,8 +3,8 @@ import path from 'path';
 import { describe, expect, test } from 'vitest';
 import { ConfigService, FileLoader } from '@config-service/core';
 import { ConfigFilesFactory, faker } from '@config-service/testing';
-import { ConfigRegistry } from '../src';
-import { JwtConfig } from './jwt-config';
+import { ConfigRegistry } from '../index.js';
+import { JwtConfig } from './jwt-config.js';
 
 describe('ConfigRegistry', () => {
   const tmpDir = os.tmpdir();

@@ -1,8 +1,10 @@
 import { Validator } from '@config-service/core';
+import type {
+  ValidatorOptions
+} from 'class-validator';
 import {
   validateSync,
   ValidationError,
-  ValidatorOptions
 } from 'class-validator';
 
 import type { Config } from '@config-service/core/config';

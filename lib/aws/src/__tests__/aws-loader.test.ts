@@ -13,7 +13,7 @@ import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { sdkStreamMixin } from '@aws-sdk/util-stream-node';
 import { ConfigService } from '@config-service/core';
 import { ConfigFilesFactory, faker } from '@config-service/testing';
-import { AwsLoader } from '../src';
+import { AwsLoader } from '../aws-loader.js';
 
 @ConfigService.Register()
 class JwtConfig {

@@ -1,7 +1,7 @@
 import { existsSync } from 'fs';
 import { describe, expect, test } from 'vitest';
-import { faker } from '@config-service/testing';
-import { ConfigFilesFactory } from '../src';
+import { faker } from '@faker-js/faker';
+import { ConfigFilesFactory } from '..';
 import { JwtConfig } from './configs/jwt-config';
 import { MongoDbConfig } from './configs/mongodb-config';
 import { RedisConfig } from './configs/redis-config';

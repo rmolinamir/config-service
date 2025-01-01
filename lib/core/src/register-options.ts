@@ -1,6 +1,6 @@
-import { Config } from './config';
-import { Transformer } from './transformer';
-import { Validator } from './validator';
+import type { Config } from './config.js';
+import type { Transformer } from './transformer.js';
+import type { Validator } from './validator.js';
 
 export type RegisterOptions<C extends Config> = {
   /**

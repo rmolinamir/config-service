@@ -1,1 +1,1 @@
-export * from './aws-loader';
+export * from './aws-loader.js';

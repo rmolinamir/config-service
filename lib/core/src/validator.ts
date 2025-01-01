@@ -1,4 +1,4 @@
-import { Config } from './config';
+import type { Config } from './config.js';
 
 /**
  * Asynchronously validates the config data. If the data is invalid, it will return a readable error.

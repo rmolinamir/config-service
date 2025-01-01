@@ -1,23 +1,25 @@
 import { ConfigLoader, ConfigService } from '@config-service/core';
-import {
+import type {
   DynamicModule,
   FactoryProvider,
-  Global,
-  Module,
   Provider,
   Type
 } from '@nestjs/common';
+import {
+  Global,
+  Module,
+} from '@nestjs/common';
 import { defer, lastValueFrom } from 'rxjs';
 
-import { OPTIONS_PROVIDER_TOKEN } from './config-service.constants';
-import { retry } from './helpers/retry';
-import {
+import { OPTIONS_PROVIDER_TOKEN } from './config-service.constants.js';
+import { retry } from './helpers/retry.js';
+import type {
   ConfigOptions,
   ConfigServiceModuleAsyncOptions,
   ConfigServiceModuleFactoryOptions,
   ConfigServiceModuleOptions,
   ConfigServiceOptionsFactory
-} from './types';
+} from './types.js';
 
 @Global()
 @Module({})

@@ -2,15 +2,17 @@ import { describe, expect, test } from 'vitest';
 import { ConfigLoader, ConfigService, FileLoader } from '@config-service/core';
 import { faker } from '@config-service/testing';
 import { Test, TestingModule } from '@nestjs/testing';
+import type {
+  ConfigServiceModuleFactoryOptions
+} from '../index.js';
 import {
   ConfigServiceModule,
-  ConfigServiceModuleFactoryOptions
-} from '../src/index';
-import { JwtConfig } from './configs/jwt-config';
-import { MongoDbConfig } from './configs/mongodb-config';
-import { RedisConfig } from './configs/redis-config';
-import { ServerConfig } from './configs/server-config';
-import { ConfigFilesFactory } from './helpers/config-file-factory';
+} from '../index.js';
+import { JwtConfig } from './configs/jwt-config.js';
+import { MongoDbConfig } from './configs/mongodb-config.js';
+import { RedisConfig } from './configs/redis-config.js';
+import { ServerConfig } from './configs/server-config.js';
+import { ConfigFilesFactory } from './helpers/config-file-factory.js';
 
 describe('ConfigServiceModule', () => {
   const factory = new ConfigFilesFactory();

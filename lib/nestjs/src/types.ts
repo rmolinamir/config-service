@@ -2,7 +2,7 @@
 
 import { ConfigLoader } from '@config-service/core';
 import { Config } from '@config-service/core/config';
-import {
+import type {
   InjectionToken,
   ModuleMetadata,
   OptionalFactoryDependency,

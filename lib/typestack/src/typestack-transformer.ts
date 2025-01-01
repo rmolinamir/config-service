@@ -1,6 +1,7 @@
 import type { Config } from '@config-service/core/config';
 import type { Transformer } from '@config-service/core/transformer';
-import { ClassTransformOptions, plainToInstance } from 'class-transformer';
+import type { ClassTransformOptions } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 
 export function TypeStackTransformer(
   options?: ClassTransformOptions

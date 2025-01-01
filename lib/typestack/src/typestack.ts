@@ -1,8 +1,8 @@
 import { Config } from '@config-service/core/config';
 import { RegisterOptions } from '@config-service/core/register-options';
 
-import { TypeStackTransformer } from './typestack-transformer';
-import { TypeStackValidator } from './typestack-validator';
+import { TypeStackTransformer } from './typestack-transformer.js';
+import { TypeStackValidator } from './typestack-validator.js';
 
 export function TypeStack(
   options: Omit<RegisterOptions<Config>, 'transformer' | 'validator'> = {},

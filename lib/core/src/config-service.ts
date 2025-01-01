@@ -1,11 +1,11 @@
 import assert from 'assert';
-import { Config } from './config';
-import { ConfigLoader } from './config-loader';
-import { ConfigModule } from './config-module';
-import { ConfigModuleState } from './config-module-state';
-import { RegisterOptions } from './register-options';
-import { ClassDecorator as NewClassDecorator } from './types/class-decorator';
-import { ClassConstructor } from './types/class-type';
+import type { Config } from './config.js';
+import { ConfigLoader } from './config-loader.js';
+import type { ConfigModule } from './config-module.js';
+import { ConfigModuleState } from './config-module-state.js';
+import type { RegisterOptions } from './register-options.js';
+import type { ClassDecorator as NewClassDecorator } from './types/class-decorator.js';
+import type { ClassConstructor } from './types/class-type.js';
 
 export class ConfigService {
   constructor(public readonly loader: ConfigLoader) {}
