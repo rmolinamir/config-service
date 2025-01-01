@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.1.2](https://github.com/rmolinamir/config-service/compare/@config-service/core-v1.1.1...${npm.name}-v1.1.2) (2025-01-01)
+
 ## [1.1.1](https://github.com/rmolinamir/config-service/compare/@config-service/core-v1.1.0...${npm.name}-v1.1.1) (2024-07-10)
 
 
