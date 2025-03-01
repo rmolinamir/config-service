@@ -18,7 +18,11 @@ export class FileLoader implements ConfigLoader {
       `URIs without paths are not supported, received {${uri.toString()}}.`
     );
 
-    const buffer = await fs.promises.readFile(uri.path);
+    const isRelative = uri.host === '.';
+
+    const filePath = isRelative ? path.resolve(process.cwd(), uri.path) : uri.path;
+
+    const buffer = await fs.promises.readFile(filePath);
     return this.parseFile(uri, buffer.toString('utf-8'));
   }
 
