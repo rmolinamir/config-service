@@ -21,11 +21,11 @@
     "watch": "turbo run watch --parallel --no-deps"
   },
   "devDependencies": {
-    "@release-it/conventional-changelog": "~8.0.1",
-    "commitizen": "~4.3.0",
+    "@release-it/conventional-changelog": "~10.0.0",
+    "commitizen": "~4.3.1",
     "cz-conventional-changelog": "~3.3.0",
-    "release-it": "~17.5.0",
-    "turbo": "~2.0.6"
+    "release-it": "~18.1.2",
+    "turbo": "~2.4.4"
   },
   "config": {
     "commitizen": {
