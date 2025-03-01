@@ -39,7 +39,7 @@
     "@config/tsconfig": "workspace:*",
     "@faker-js/faker": "~8.4.1",
     "@types/node": "~20.14.10",
-    "release-it": "~17.5.0",
+    "release-it": "~18.1.2",
     "typescript": "~5.5.3",
     "vitest": "~2.0.1"
   }
