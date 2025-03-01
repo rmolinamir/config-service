@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.4](https://github.com/rmolinamir/config-service/compare/@config-service/core-v1.1.3...${npm.name}-v1.1.4) (2025-03-01)
+
+### Bug Fixes
+
+* **file-loader:** relative file path ([fc9618d](https://github.com/rmolinamir/config-service/commit/fc9618db492f7571c339ee0a280ef511f23dfaf6))
+
 ## [1.1.3](https://github.com/rmolinamir/config-service/compare/@config-service/core-v1.1.2...${npm.name}-v1.1.3) (2025-03-01)
 
 ### Features
